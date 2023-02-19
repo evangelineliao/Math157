@@ -1,0 +1,66 @@
+#solution 5.1
+def is_prime(n):
+    if n <= 1:
+        return False
+    if n == 2:
+        return True
+    if n % 2 == 0:
+        return False
+    else:
+      #check if n is divisible by any odd integers between 3 and the square root of n
+        i = 3
+        while i*i <= n:
+            if n % i == 0:
+                return False
+            i += 2
+        return True
+
+#solution 5.2
+import math
+
+def factorial(max_number):
+  prime = []
+
+  for i in range(1,int(max_number)+1):
+    factorialplus1 = math.factorial(i) +1
+    if is_prime(factorialplus1) == True:
+      prime.append(i)
+
+  print(prime)
+
+factorial(15)
+
+#solution 5.3
+def primes_up_to(n):
+    primes = [True] * (n+1)
+    primes[0] = primes[1] = False
+
+    for i in range(2, int(n**0.5) + 1):
+        if primes[i]:
+            for j in range(i**2, n+1, i):
+                primes[j] = False
+
+    return [i for i in range(2, n+1) if primes[i]]
+
+print(primes_up_to(100))
+
+#solution 5.4
+def pi(n):
+  numberofprimes = len(primes_up_to(n))
+  return numberofprimes
+
+print(pi(10000))
+
+#solution 5.5
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.arange(2, 1570000)
+y1 = [pi(i) for i in x]
+def y2(x):
+  return x/np.log(x)
+y2 = [y2(i) for i in x]
+
+plt.plot(x, y1, label = "pi(x)")     
+plt.plot(x, y2, label='approximation')    
